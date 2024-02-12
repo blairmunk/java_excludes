@@ -36,31 +36,40 @@ public class UserDataApp {
             writeUserDataToFile(lastName, firstName, middleName, birthDate, phoneNumber, gender);
             System.out.println("Данные успешно записаны в файл");
         } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка: неверный формат даты рождения, номера телефона или пола");
+            if (e.getMessage().equals("Wrong BirthDate")) {
+                System.out.println("Ошибка: неверный формат даты рождения");
+            } else if (e.getMessage().equals("Wrong PhoneNumber")) {
+                System.out.println("Ошибка: неверный формат номера телефона");
+            } else if (e.getMessage().equals("Wrong Gender")) {
+                System.out.println("Ошибка: неверный формат пола");
+            } else {
+                System.out.println("Ошибка: неверный формат данных");
+            }
         } catch (IOException e) {
             System.out.println("Ошибка при записи данных в файл:");
             e.printStackTrace();
         }
     }
 
+
     private static void validateBirthDate(String birthDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         try {
             LocalDate.parse(birthDate, formatter);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Неверный формат даты рождения");
+            throw new IllegalArgumentException("Wrong BirthDate");
         }
     }
 
     private static void validatePhoneNumber(String phoneNumber) {
         if (!phoneNumber.matches("\\d+")) {
-            throw new IllegalArgumentException("Неверный формат номера телефона");
+            throw new IllegalArgumentException("Wrong PhoneNumber");
         }
     }
 
     private static void validateGender(String gender) {
         if (!gender.equals("f") && !gender.equals("m")) {
-            throw new IllegalArgumentException("Неверный формат пола");
+            throw new IllegalArgumentException("Wrong Gender");
         }
     }
 
