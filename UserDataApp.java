@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class UserDataApp {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalArgumentException {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Введите данные в следующем порядке, разделенные пробелом:");
@@ -32,10 +32,11 @@ public class UserDataApp {
         try {
             validateBirthDate(birthDate); // Проверка формата даты рождения
             validatePhoneNumber(phoneNumber); // Проверка формата номера телефона
+            validateGender(gender); // Проверка формата пола
             writeUserDataToFile(lastName, firstName, middleName, birthDate, phoneNumber, gender);
             System.out.println("Данные успешно записаны в файл");
         } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка: неверный формат даты рождения или номера телефона");
+            System.out.println("Ошибка: неверный формат даты рождения, номера телефона или пола");
         } catch (IOException e) {
             System.out.println("Ошибка при записи данных в файл:");
             e.printStackTrace();
@@ -54,6 +55,12 @@ public class UserDataApp {
     private static void validatePhoneNumber(String phoneNumber) {
         if (!phoneNumber.matches("\\d+")) {
             throw new IllegalArgumentException("Неверный формат номера телефона");
+        }
+    }
+
+    private static void validateGender(String gender) {
+        if (!gender.equals("f") && !gender.equals("m")) {
+            throw new IllegalArgumentException("Неверный формат пола");
         }
     }
 
