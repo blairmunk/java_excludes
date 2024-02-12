@@ -1,6 +1,8 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class UserDataApp {
@@ -28,11 +30,23 @@ public class UserDataApp {
         String gender = data[5];
 
         try {
+            validateBirthDate(birthDate); // Проверка формата даты рождения
             writeUserDataToFile(lastName, firstName, middleName, birthDate, phoneNumber, gender);
             System.out.println("Данные успешно записаны в файл");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: неверный формат даты рождения");
         } catch (IOException e) {
             System.out.println("Ошибка при записи данных в файл:");
             e.printStackTrace();
+        }
+    }
+
+    private static void validateBirthDate(String birthDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        try {
+            LocalDate.parse(birthDate, formatter);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Неверный формат даты рождения");
         }
     }
 
