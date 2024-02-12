@@ -31,10 +31,11 @@ public class UserDataApp {
 
         try {
             validateBirthDate(birthDate); // Проверка формата даты рождения
+            validatePhoneNumber(phoneNumber); // Проверка формата номера телефона
             writeUserDataToFile(lastName, firstName, middleName, birthDate, phoneNumber, gender);
             System.out.println("Данные успешно записаны в файл");
         } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка: неверный формат даты рождения");
+            System.out.println("Ошибка: неверный формат даты рождения или номера телефона");
         } catch (IOException e) {
             System.out.println("Ошибка при записи данных в файл:");
             e.printStackTrace();
@@ -47,6 +48,12 @@ public class UserDataApp {
             LocalDate.parse(birthDate, formatter);
         } catch (Exception e) {
             throw new IllegalArgumentException("Неверный формат даты рождения");
+        }
+    }
+
+    private static void validatePhoneNumber(String phoneNumber) {
+        if (!phoneNumber.matches("\\d+")) {
+            throw new IllegalArgumentException("Неверный формат номера телефона");
         }
     }
 
